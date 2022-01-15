@@ -5,7 +5,8 @@ const { body, validationResult } = require("express-validator");
 const { findOne } = require("../models/User");
 const { response } = require("express");
 const bcrypt = require('bcryptjs');
-
+const jwt = require('jsonwebtoken');
+const SECRETE="this-is-secrete"
 //Create user using POST:"/api/auth/createuser" and This endpoint dosen't required authentication
 router.post(
   "/createuser",
@@ -42,7 +43,14 @@ router.post(
         email: req.body.email,
       });
 
-      res.json(user);
+      const data={
+        user:{
+          name:user.name,
+          password:user.password
+        }
+      }
+      const auth_token=jwt.sign(data,SECRETE)
+      res.json({auth_token})
     } 
     catch (error) {
       console.log(error.message);
