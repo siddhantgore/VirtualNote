@@ -6,8 +6,10 @@ const { findOne } = require("../models/User");
 const { response } = require("express");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const SECRETE="this-is-secrete"
-//Create user using POST:"/api/auth/createuser" and This endpoint dosen't required authentication
+const JWT_SECRETE="this-is-secrete";
+const fetchuser=require("../middleware/fetchuser");
+
+//ROUTE 1:-Create user using POST:"/api/auth/createuser" and This endpoint dosen't required authentication
 router.post(
   "/createuser",
   [
@@ -17,7 +19,7 @@ router.post(
     body("password", "Password is too short").isLength({ min: 5 }),
   ],
 
-  //this calback function inside router.post methode
+  //this is calback function inside router.post methode
   async (req, res) => {
 
     //generate error if data validation fails
@@ -45,11 +47,10 @@ router.post(
 
       const data={
         user:{
-          name:user.name,
-          password:user.password
+          id:user.id
         }
       }
-      const auth_token=jwt.sign(data,SECRETE)
+      const auth_token=jwt.sign(data,JWT_SECRETE)
       res.json({auth_token})
     } 
     catch (error) {
@@ -59,5 +60,59 @@ router.post(
   }
 );
 
+//ROUTE 2:-Endpoint for Login:"/api/auth/login" and This endpoint dosen't required authentication
+router.post(
+  "/login",
+  [
+    //validation of data send by user
+    body("email", "Enter Valid Email").isEmail(),
+    body("password", "Password can't be empty").exists(),
+  ],
+
+  //this is calback function inside router.post methode
+  async (req, res) => {
+
+    //generate error if data validation fails
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const {email,password}=req.body;
+    try{
+      let user= await User.findOne({email});
+      if(!user){
+        return res.status(400).json({error:"Invalid Credentila"})
+      }
+      const passwordCompare=await bcrypt.compare(password,user.password)
+      if(!passwordCompare){
+        return res.status(400).json({error:"Invalid Credential"})
+      }
+      const data={
+        user:{
+          id:user.id
+        }
+      }
+      const auth_token=jwt.sign(data,JWT_SECRETE)
+      res.json({auth_token})
+    }
+    catch(error){
+      console.log(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+  
+//Route 3:-Get loggedin user details : Login Required
+router.post('/getuser',fetchuser,async (req,res)=>{
+
+  try {
+    userId=req.user.id;
+    const user=await User.findById(userId).select("-password")
+    res.send(user)
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+})
 module.exports = router;
 //code by siddhant gore
