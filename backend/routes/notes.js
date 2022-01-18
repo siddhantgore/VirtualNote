@@ -49,7 +49,7 @@ router.post(
   }
 );
 
-//ROUTE 2:-Update Note PUT:"/api/notes/updatenote": Require Authentication
+//ROUTE 2:-Update Note PUT:"/api/notes/updatenote/:id": Require Authentication
 router.put("/updatenote/:id", fetchuser, async (req, res) => {
     try {
       const {title,description,tag}=req.body
@@ -75,5 +75,28 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
       res.status(500).send("Internal Server Error");
     }
   });
+
+//ROUTE 2:-Delete Note DELETE:"/api/notes/deletenote:id": Require Authentication
+router.delete("/deletenote/:id", fetchuser, async (req, res) => {
+  try {
+
+    //find note which user want to delete
+    let note =await Note.findById(req.params.id)
+    if(!note){return res.status(404).send("Not Found")}
+
+    //check is user own the note which he/she want to delete
+    if(note.user.toString()!==req.user.id){
+        return res.status(401).send("Not Allowed")
+    }
+
+    note=await Note.findByIdAndDelete(req.params.id)
+    res.json("Note Deleted Successfully")
+
+
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 module.exports = router;
