@@ -62,9 +62,23 @@
 .noteCard{
   margin-bottom: 14px;
 }
+
+.newform {
+  display: flex;
+  justify-content: center;
+  text-align: left;
+}
+
+.newform .form-control{
+  width: 400px;
+}
+
 @media ( max-width: 700px) {
   .form .form-control{
     width: 300px;
+  }
+  .newform .form-control{
+    width: 290px;
   }
   .noteCard .card .card-body{
     display: block;
