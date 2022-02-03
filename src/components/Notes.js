@@ -6,22 +6,24 @@ import NoteItem from "./NoteItem";
 
 function Notes() {
   const context = useContext(NoteContext);
-  const { notes, getNotes } = context;
+  const { notes, getNotes,editNote } = context;
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     getNotes();
   }, []);
 
   const ref = useRef(null)
+  const refClose = useRef(null)
 
   const updateNote = (currentNote) => {
     ref.current.click();
-    setNote({etitle:currentNote.title,edescription:currentNote.description,etag:currentNote.tag})
+    setNote({id:currentNote._id ,etitle:currentNote.title,edescription:currentNote.description,etag:currentNote.tag})
   };
-  const [note, setNote] = useState({ etitle: "", edescription: "", etag: "" });
+  const [note, setNote] = useState({id:"", etitle: "", edescription: "", etag: "" });
   const handleClick = (e) => {
     console.log("Upading Note")
-    e.preventDefault();
+    editNote(note.id,note.etitle,note.edescription,note.etag)
+    refClose.current.click();
   }
 
   const onChange = (e) => {
@@ -47,23 +49,23 @@ function Notes() {
                 <form>
                   <div className="form-group">
                     <label htmlFor="title">Title</label>
-                    <input type="text" className="form-control" id="title" name="title" value={note.etitle} aria-describedby="emailHelp" placeholder="title" onChange={onChange} />
+                    <input type="text" className="form-control" id="etitle" name="etitle" value={note.etitle} aria-describedby="emailHelp" placeholder="title" onChange={onChange} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="description">Description</label>
-                    <input type="text" className="form-control" id="description" name="description" value={note.edescription} placeholder="description" onChange={onChange} />
+                    <input type="text" className="form-control" id="edescription" name="edescription" value={note.edescription} placeholder="description" onChange={onChange} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="tag">Tag</label>
-                    <input type="text" className="form-control" id="tag" name="tag" value={note.etag} placeholder="tag" onChange={onChange} />
+                    <input type="text" className="form-control" id="etag" name="etag" value={note.etag} placeholder="tag" onChange={onChange} />
                   </div>
                   {/* <button type="submit" className="btn btn-primary" onClick={handleClick}>Add Note</button> */}
                 </form>
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleClick}>Save changes</button>
+              <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-primary" onClick={handleClick}>Save Changes</button>
             </div>
           </div>
         </div>
