@@ -8,7 +8,7 @@ function Notes() {
   const context = useContext(NoteContext);
   const { notes, getNotes,editNote } = context;
   useEffect(() => {
-    //eslint-disable-next-line react-hooks/exhaustive-deps
+    
     getNotes();
   }, []);
 
@@ -35,7 +35,6 @@ function Notes() {
       <Addnote />
 
       <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
       </button>
       <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">
@@ -49,11 +48,11 @@ function Notes() {
                 <form>
                   <div className="form-group">
                     <label htmlFor="title">Title</label>
-                    <input type="text" className="form-control" id="etitle" name="etitle" value={note.etitle} aria-describedby="emailHelp" placeholder="title" onChange={onChange} />
+                    <input type="text" className="form-control" id="etitle" name="etitle" value={note.etitle} aria-describedby="emailHelp" placeholder="title" onChange={onChange} minLength={5} required/>
                   </div>
                   <div className="form-group">
                     <label htmlFor="description">Description</label>
-                    <input type="text" className="form-control" id="edescription" name="edescription" value={note.edescription} placeholder="description" onChange={onChange} />
+                    <input type="text" className="form-control" id="edescription" name="edescription" value={note.edescription} placeholder="description" onChange={onChange} minLength={5} required/>
                   </div>
                   <div className="form-group">
                     <label htmlFor="tag">Tag</label>
@@ -65,12 +64,13 @@ function Notes() {
             </div>
             <div className="modal-footer">
               <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleClick}>Save Changes</button>
+              <button disabled={note.etitle.length<3||note.edescription.length<5} type="button" className="btn btn-primary" onClick={handleClick}>Save Changes</button>
             </div>
           </div>
         </div>
       </div>
       <div className="noteItem">
+        {notes.length===0 && "Notes are Not Available!"}
         {notes.map((note) => {
           return (
             <NoteItem key={note._id} updateNote={updateNote} note={note} />
