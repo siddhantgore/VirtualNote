@@ -26,7 +26,7 @@ router.post(
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({errors: errors.array() });
     }
     //try & catch block to handle any error during backend and database communication
     try {
@@ -70,9 +70,11 @@ router.post(
   ],
 
   //this is calback function inside router.post methode
+
   async (req, res) => {
 
     //generate error if data validation fails
+    let success=false;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -82,11 +84,12 @@ router.post(
     try{
       let user= await User.findOne({email});
       if(!user){
-        return res.status(400).json({error:"Invalid Credentila"})
+        return res.status(400).json({success,error:"Invalid Credentila"})
       }
       const passwordCompare=await bcrypt.compare(password,user.password)
       if(!passwordCompare){
-        return res.status(400).json({error:"Invalid Credential"})
+        success=false
+        return res.status(400).json({success,error:"Invalid Credential"})
       }
       const data={
         user:{
@@ -94,7 +97,8 @@ router.post(
         }
       }
       const auth_token=jwt.sign(data,JWT_SECRETE)
-      res.json({auth_token})
+      success=true;
+      res.json({success,auth_token})
     }
     catch(error){
       console.log(error.message);
