@@ -1,12 +1,11 @@
-import { Alert } from "@mui/material";
-import React from "react";
+import React from 'react'
 
-function Alerts(props) {
-  return (
-    <div>
-      <Alert severity="success">{props.message} — check it out!</Alert>
-    </div>
-  );
+export default function Alert(props){
+    return (
+        <div>
+            <div className="alert alert-primary" role="alert">
+                {props.message}
+            </div>
+        </div>
+    )
 }
-
-export default Alerts;
