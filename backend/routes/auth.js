@@ -23,6 +23,7 @@ router.post(
   async (req, res) => {
 
     //generate error if data validation fails
+    let success=false;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -51,7 +52,8 @@ router.post(
         }
       }
       const auth_token=jwt.sign(data,JWT_SECRETE)
-      res.json({auth_token})
+      success=true;
+      res.json({success,auth_token})
     } 
     catch (error) {
       console.log(error.message);
