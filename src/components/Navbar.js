@@ -58,9 +58,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar(props) {
   const handleLogout=()=>{
     localStorage.removeItem('token')
+    props.showAlert("Logout Succefully","success");
   }
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);

@@ -27,6 +27,9 @@ function Login(props) {
       navigate('/');
       props.showAlert("Login Successfully","success")
     }
+    else{
+      props.showAlert("Invalid Credential","danger")
+    }
   }
   return (
     <div>

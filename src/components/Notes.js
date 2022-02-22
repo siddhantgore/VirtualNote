@@ -5,7 +5,7 @@ import NoteItem from "./NoteItem";
 import { useNavigate } from 'react-router-dom';
 
 
-function Notes() {
+function Notes(props) {
   const navigate = useNavigate();
   const context = useContext(NoteContext);
   const { notes, getNotes,editNote } = context;
@@ -25,12 +25,14 @@ function Notes() {
   const updateNote = (currentNote) => {
     ref.current.click();
     setNote({id:currentNote._id ,etitle:currentNote.title,edescription:currentNote.description,etag:currentNote.tag})
+
   };
   const [note, setNote] = useState({id:"", etitle: "", edescription: "", etag: "" });
   const handleClick = (e) => {
     console.log("Upading Note")
     editNote(note.id,note.etitle,note.edescription,note.etag)
     refClose.current.click();
+    props.showAlert("Updated","success")
   }
 
   const onChange = (e) => {
@@ -39,7 +41,7 @@ function Notes() {
 
   return (
     <>
-      <Addnote />
+      <Addnote showAlert={props.showAlert}/>
 
       <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
       </button>
