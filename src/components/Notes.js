@@ -9,6 +9,7 @@ function Notes(props) {
   const navigate = useNavigate();
   const context = useContext(NoteContext);
   const { notes, getNotes,editNote } = context;
+  const [search, setSearch] = useState('')
   useEffect(() => {
     if(localStorage.getItem('token')){
       getNotes();
@@ -39,6 +40,9 @@ function Notes(props) {
     setNote({ ...note, [e.target.name]: e.target.value })
   }
 
+  const filteredContacts = search.length === 0 ? notes : 
+  notes.filter(note => note.title.
+              toLowerCase().includes(search.toLowerCase()))
   return (
     <>
       <Addnote showAlert={props.showAlert}/>
@@ -78,9 +82,18 @@ function Notes(props) {
           </div>
         </div>
       </div>
+      <div>
+            <h3>Search Notes</h3>
+                <input 
+                    type="text" 
+                    placeholder="Search note" 
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    />
+        </div><br/>
       <div className="noteItem">
         {notes.length===0 && "Notes are Not Available!"}
-        {notes.map((note) => {
+        {filteredContacts.map((note) => {
           return (
             <NoteItem key={note._id} updateNote={updateNote} note={note} />
           );
