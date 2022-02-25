@@ -9,7 +9,6 @@ const NoteState = (props) => {
 
     //Get Notes
     const getNotes = async () => {
-      console.log("Adding new note");
   
       const response = await fetch(`${hots}fetchallnotes`, {
         method: "GET",
@@ -20,7 +19,6 @@ const NoteState = (props) => {
       });
       const json= await response.json()
       setNotes(json)
-  
     };
   //Add notes
   const addNote = async (title, description, tag) => {
