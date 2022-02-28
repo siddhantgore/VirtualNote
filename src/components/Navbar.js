@@ -59,10 +59,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navbar(props) {
-  const handleLogout=()=>{
-    localStorage.removeItem('token')
-    props.showAlert("Logout Succefully","success");
-  }
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    props.showAlert("Logout Succefully", "success");
+  };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -179,17 +179,24 @@ export default function Navbar(props) {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            VirtualNote
+            <div className="brand_name">
+              <h4>VirtualNote </h4>
+              <p>securing your thoughts</p>
+            </div>
           </Typography>
-          {localStorage.getItem('token')?<Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>:""}
+          {localStorage.getItem("token") ? (
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          ) : (
+            ""
+          )}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -220,18 +227,20 @@ export default function Navbar(props) {
             >
               <AccountCircle />
             </IconButton> */}
-            {!localStorage.getItem('token')? <Stack direction="row" spacing={2}>
-            <Button variant="contained" href="signup">
-              SignUp
-            </Button>
-            <Button variant="contained" href="login">
-              SignIn
-            </Button>
-            </Stack>:
-            <Button variant="contained" href="login" onClick={handleLogout}>
-            Logout
-          </Button>
-            }
+            {!localStorage.getItem("token") ? (
+              <Stack direction="row" spacing={2}>
+                <Button variant="contained" href="signup">
+                  SignUp
+                </Button>
+                <Button variant="contained" href="login">
+                  SignIn
+                </Button>
+              </Stack>
+            ) : (
+              <Button variant="contained" href="login" onClick={handleLogout}>
+                Logout
+              </Button>
+            )}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
