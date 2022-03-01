@@ -85,3 +85,21 @@
     width:300px;
   }
 }
+
+.brand_name{
+/* display: flex; */
+justify-content: space-evenly;
+flex-wrap:wrap;
+align-items: center;
+}
+
+.brand_name h4,p{
+  display: inline;
+}
+
+.brand_name p{
+  font-size: 12px;
+  font-weight: lighter;
+  margin-top: 14px;
+  color:violet;
+}
