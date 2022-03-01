@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import NoteContext from "./noteContext";
 
 const NoteState = (props) => {
-  const hots = "http://localhost:5000/api/notes/";
+
+  // const url="http://localhost:5000/api/notes/"
+  // const url="https://virtualnote-sid.netlify.app/"
+
+  // const hots = "http://localhost:5000/api/notes/";
+  const hots="https://virtualnote-sid.netlify.app/api/notes/"
   const initialNotes = [];
 
   const [notes, setNotes] = useState(initialNotes);
