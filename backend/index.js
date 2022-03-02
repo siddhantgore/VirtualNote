@@ -1,4 +1,5 @@
 const connectToMongo=require('./db');
+require("dotenv").config(); // for deployment
 connectToMongo();
 
 const express = require('express')
@@ -15,6 +16,6 @@ app.use(express.json()) //required to use req.body
 app.use('/api/auth',require('./routes/auth'))
 app.use('/api/notes',require('./routes/notes'))
 
-app.listen(port, () => {
-  console.log(`VirtualNote app listening at http://localhost:${port}`)
+app.listen(process.env.PORT || 5000, () => {  //deploymet code
+  console.log("VirtualNote app listening")
 })

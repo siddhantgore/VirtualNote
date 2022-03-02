@@ -4,10 +4,10 @@ import NoteContext from "./noteContext";
 const NoteState = (props) => {
 
   // const url="http://localhost:5000/api/notes/"
-  // const url="https://virtualnote-sid.netlify.app/"
+  // const url="https://virtual-note.herokuapp.com"
 
   // const hots = "http://localhost:5000/api/notes/";
-  const hots="https://virtualnote-sid.netlify.app/api/notes/"
+  const hots="https://virtual-note.herokuapp.com/api/notes/"
   const initialNotes = [];
 
   const [notes, setNotes] = useState(initialNotes);

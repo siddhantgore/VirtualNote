@@ -13,7 +13,7 @@ function Signup(props) {
   const handleSubmit=async (e)=>{
     e.preventDefault();
     const {name,email,password}=credential
-    const response = await fetch("https://virtualnote-sid.netlify.app/api/auth/createuser", {
+    const response = await fetch("https://virtual-note.herokuapp.com/api/auth/createuser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
