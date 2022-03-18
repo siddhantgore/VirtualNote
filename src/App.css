@@ -43,8 +43,12 @@
   text-align: left;
 }
 
+.form button{
+  text-align: center;
+}
+
 .form .form-control{
-  width: 700px;
+  width: 500px;
   margin-bottom: 12px;
 
 }

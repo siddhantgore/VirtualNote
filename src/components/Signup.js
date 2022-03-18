@@ -47,7 +47,7 @@ function Signup(props) {
           <label htmlFor="password">Password</label>
           <input type="password" className="form-control" id="password" name="password"  onChange={onChange} placeholder="password" />
         </div>
-        <button  type="submit" className="btn btn-primary" >Login</button>
+        <button  type="submit" className="btn btn-primary" >SignUp</button>
       </form>
       </div>
     </div>
